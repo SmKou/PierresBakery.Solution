@@ -39,9 +39,20 @@ namespace PierresBakery.Models
 
         public static Pastry makePastry(string type)
         {
-            string[] possible_origins = { "filipino", "austrian", "portuguese", "french" };
-            int i = new Random().Next(0, 4);
-            return new Pastry("special", new string[] { possible_origins[i]});
+            switch (type)
+            {
+                case "custard":
+                    return new CustardPastry();
+                case "macaron":
+                case "macaroon":
+                    return new MacaroonPastry();
+                case "strudel":
+                    return new StrudelPastry();
+                default:
+                    string[] possible_origins = { "filipino", "austrian", "portuguese", "french" };
+                    int i = new Random().Next(0, 4);
+                    return new Pastry("special", new string[] { possible_origins[i] });
+            }
         }
 
         public int GetSubtotal(int n)
