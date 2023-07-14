@@ -15,7 +15,8 @@ namespace PierresBakery.Models
 
         public int GetSubtotal(int n)
         {
-            return 0;
+            int free_items = n / (DealAmount + 1);
+            return (n - free_items) * Cost;
         }
     }
 
