@@ -28,7 +28,7 @@ namespace PierresBakery.Models
 
     public class SourdoughBread : Bread
     {
-        private static string[] origins = { "german", "italian" };
+        private static string[] origins = { "german", "italian", "american" };
 
         public SourdoughBread() : base("sourdough", origins, 7, 2) {}
     }

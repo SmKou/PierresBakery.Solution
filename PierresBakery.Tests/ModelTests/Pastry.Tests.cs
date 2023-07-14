@@ -49,9 +49,15 @@ namespace PierresBakery.Tests
         }
 
         [TestMethod]
-        [DataRow()]
-        public void pastry_ReturnOriginsList_StringArray()
-        { }
+        [DataRow("custard", 3)]
+        [DataRow("macaron", 2)]
+        [DataRow("strudel", 3)]
+        [DataRow("special", 1)]
+        public void pastry_ReturnOriginsList_StringArray(string type, int expected)
+        {
+            MenuItem pastry = MenuItem.makePastry(type);
+            Assert.AreEqual(expected, pastry.Origins.Length);
+        }
 
         [TestMethod]
         [DataRow()]
