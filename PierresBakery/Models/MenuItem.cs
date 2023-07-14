@@ -17,6 +17,17 @@ namespace PierresBakery.Models
             Origins = origins;
         }
 
+        public int hasOrigin(string origin)
+        {
+            bool has = Array.Exists(Origins, e => e == origin);
+            return has ? Array.IndexOf(Origins, origin) : -1;
+        }
+
+        public string getOrigin(int i)
+        {
+            return char.ToUpper(Origins[i][0]) + Origins[i].Substring(1);
+        }
+
         public static Bread makeBread(string type)
         {
             switch (type)

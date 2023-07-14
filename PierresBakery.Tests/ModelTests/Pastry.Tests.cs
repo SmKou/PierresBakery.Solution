@@ -21,14 +21,29 @@ namespace PierresBakery.Tests
         }
 
         [TestMethod]
-        [DataRow(1, 2)]
-        [DataRow(2, 4)]
-        [DataRow(3, 6)]
-        [DataRow(4, 6)]
-        [DataRow(5, 8)]
-        public void pastry_ReturnSubtotalOfPastry_Int(int amt, int total)
+        [DataRow("custard", 1, 3)]
+        [DataRow("custard", 2, 6)]
+        [DataRow("custard", 6, 18)]
+        [DataRow("custard", 7, 18)]
+        [DataRow("custard", 14, 36)]
+        [DataRow("macaron", 1, 1)]
+        [DataRow("macaron", 2, 2)]
+        [DataRow("macaron", 8, 8)]
+        [DataRow("macaron", 9, 8)]
+        [DataRow("macaron", 18, 16)]
+        [DataRow("strudel", 1, 5)]
+        [DataRow("strudel", 2, 10)]
+        [DataRow("strudel", 3, 15)]
+        [DataRow("strudel", 4, 15)]
+        [DataRow("strudel", 8, 30)]
+        [DataRow("special", 1, 2)]
+        [DataRow("special", 2, 4)]
+        [DataRow("special", 3, 6)]
+        [DataRow("special", 4, 6)]
+        [DataRow("special", 8, 12)]
+        public void pastry_ReturnSubtotalOfPastry_Int(string type, int amt, int total)
         {
-            MenuItem pastry = MenuItem.makePastry("special");
+            MenuItem pastry = MenuItem.makePastry(type);
             int result = pastry.GetSubtotal(amt);
             Assert.AreEqual(total, result);
         }
