@@ -34,7 +34,7 @@ namespace PierresBakery.Models
     {
         private static string[] origins = { "middle eastern", "italian" };
 
-        public FlatBread() : base("flatbread", origins, 6, 2) {}
+        public FlatBread() : base("flatbread", origins, 6, 4) {}
     }
 
     public class SourdoughBread : Bread
