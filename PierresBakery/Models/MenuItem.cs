@@ -7,8 +7,11 @@ namespace PierresBakery.Models
         public int DealAmount { get; }
 
         public MenuItem(string itemName, int cost, int dealAmount)
-        { }
-        /* ItemName = itemName; Cost = cost; DealAmount = dealAmount; */
+        {
+            ItemName = itemName;
+            Cost = cost;
+            DealAmount = dealAmount;
+        }
 
         public int GetSubtotal(int n)
         {
