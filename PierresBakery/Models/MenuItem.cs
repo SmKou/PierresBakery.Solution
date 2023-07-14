@@ -9,26 +9,27 @@ namespace PierresBakery.Models
         public int DealAmount { get; set; }
         public string Type { get; }
         public string[] Origins { get; }
+        public string[] Options { get; }
+        public int Quantity { get; set; } = 0;
 
-        public MenuItem(string itemName, string type, string[] origins)
+        public MenuItem(string itemName, string type, string[] origins, string[] options)
         {
             ItemName = itemName;
             Type = type;
             Origins = origins;
         }
 
-        public int hasOrigin(string origin)
+        public bool HasOrigin(string origin)
         {
-            bool has = Array.Exists(Origins, e => e == origin);
-            return has ? Array.IndexOf(Origins, origin) : -1;
+            return Array.Exists(Origins, e => e == origin);
         }
 
-        public string getOrigin(int i)
+        public string GetOrigin(int i)
         {
             return char.ToUpper(Origins[i][0]) + Origins[i].Substring(1);
         }
 
-        public static Bread makeBread(string type)
+        public static Bread MakeBread(string type)
         {
             switch (type)
             {
@@ -48,7 +49,7 @@ namespace PierresBakery.Models
             }
         }
 
-        public static Pastry makePastry(string type)
+        public static Pastry MakePastry(string type)
         {
             switch (type)
             {

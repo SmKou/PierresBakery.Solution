@@ -16,7 +16,7 @@ namespace PierresBakery.Tests
         [DataRow("special", "special", 5)]
         public void bread_ConstructMenuItem_Void(string type, string expected_type, int expected)
         {
-            MenuItem bread = MenuItem.makeBread(type);
+            MenuItem bread = MenuItem.MakeBread(type);
             Assert.AreEqual("bread", bread.ItemName);
             Assert.AreEqual(expected_type, bread.Type);
             Assert.AreEqual(expected, bread.Cost);
@@ -42,7 +42,7 @@ namespace PierresBakery.Tests
         [DataRow("special", 6, 20)]
         public void bread_ReturnSubtotalOfBread_Int(string type, int amt, int total)
         {
-            MenuItem bread = MenuItem.makeBread(type);
+            MenuItem bread = MenuItem.MakeBread(type);
             int result = bread.GetSubtotal(amt);
             Assert.AreEqual(total, result);
         }
@@ -54,12 +54,21 @@ namespace PierresBakery.Tests
         [DataRow("special", 1)]
         public void bread_ReturnOriginsList_StringArray(string type, int expected)
         {
-            MenuItem bread = MenuItem.makeBread(type);
+            MenuItem bread = MenuItem.MakeBread(type);
             Assert.AreEqual(expected, bread.Origins.Length);
         }
 
         [TestMethod]
-        [DataRow()]
+        [DataRow("rye", "icelandic", true)]
+        [DataRow("rye", "finnish", true)]
+        [DataRow("rye", "american", false)]
+        [DataRow("flat", "middle eastern", true)]
+        [DataRow("flat", "italian", true)]
+        [DataRow("flat", "mexican", false)]
+        [DataRow("sour", "german", true)]
+        [DataRow("sour", "italian", true)]
+        [DataRow("sour", "american", true)]
+        [DataRow("sour", "california", false)]
         public void bread_ReturnListContainsItem_Int()
         {}
 
