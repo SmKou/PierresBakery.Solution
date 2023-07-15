@@ -1,24 +1,40 @@
+using System.Collections.Generic;
+
 namespace PierresBakery.Models
 {
     public class Pastry : MenuItem
     {
-        public Pastry(string type) : this(type, 2, 3) { }
+        private static Dictionary<string, int> _costs = new Dictionary<string, int> {
+            {"special", 2},
+            {"custard", 3},
+            {"macaroon", 1},
+            {"strudel", 5}
+        };
+        private static Dictionary<string, int> _deals = new Dictionary<string, int> {
+            {"special", 3},
+            {"custard", 6},
+            {"macaroon", 8},
+            {"strudel", 3}
+        };
 
-        public Pastry(string type, int cost, int deal) : base("pastry", type, cost, deal) { }
-    }
+        public Pastry() : this("special") {}
 
-    public class CustardPastry : Pastry 
-    {
-        public CustardPastry() : base("custard", 3, 6) {} 
-    }
+        public Pastry(string option) : this(option, _costs[option], _deals[option]) { }
 
-    public class MacaroonPastry : Pastry
-    {
-        public MacaroonPastry() : base("macaroon", 1, 8) {}
-    }
+        public Pastry(string option, int cost, int deal) : base("pastry", option, cost, deal) { }
 
-    public class StrudelPastry : Pastry
-    {
-        public StrudelPastry() : base("strudel", 5, 3) { }
+        public static int ItemCost(string option)
+        {
+            if (!_costs.ContainsKey(option))
+                return 0;
+            return _costs[option];
+        }
+
+        public static int ItemDeal(string option)
+        {
+            if (!_deals.ContainsKey(option))
+                return 0;
+            return _deals[option];
+        }
     }
 }

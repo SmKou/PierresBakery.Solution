@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PierresBakery.Models
 {
@@ -11,42 +12,67 @@ namespace PierresBakery.Models
             item_list = new Dictionary<string, MenuItem>();
         }
 
-        public bool AddItem(string name, MenuItem item, int qty)
+        public bool HasItem(string item)
         {
-            if (qty <= 0)
-                return false;
-            item.Quantity = qty;
-            item_list.Add(name, item);
-            return true;
+            return item_list.ContainsKey(item);
         }
 
-        public bool DeleteItem(string name)
+        public void AddItem(string item, MenuItem details)
         {
-            if (item_list.ContainsKey(name))
+            item_list.Add(item, details);
+        }
+
+        public bool DeleteItem(string item)
+        {
+            if (item_list.ContainsKey(item))
             {
-                item_list.Remove(name);
+                item_list.Remove(item);
                 return true;
             }
             return false;
         }
 
-        public bool ChangeQty(string name, int qty)
+        public bool ChangeQty(string item, int qty)
         {
-            if (item_list.ContainsKey(name)) {
-                item_list[name].Quantity = qty;
+            if (item_list.ContainsKey(item)) {
+                item_list[item].Quantity = qty;
                 return true;
             }
             return false;
+        }
+
+        public string[] GetItems()
+        {
+            string[] items = new string[item_list.Count];
+            item_list.Keys.CopyTo(items, 0);
+            return items;
         }
 
         public string[] GetOrder()
         {
-            item_list<string> order = new List<string>();
-            foreach (var item in item_list)
-            {
-                Order.Add($"{item.Key} : ${item.Value.Quantity}  ${item.Value.GetSubtotal()}");
-            }
+            List<string> order = new List<string>();
+            string divider = "";
+            for (int i = 0; i < 46; i++)
+                divider += "-";
+            order.Add(divider);
+            string[] items = GetItems();
+            for (int i = 0; i < items.Length; i++)
+                order.Add($"{i}. " + item_list[items[i]].GetItem());
+            order.Add(divider);
+            string total = "Total";
+            for (int i = 0; i < 35; i++)
+                total += " ";
+            total += "$" + GetTotal();
+            order.Add(divider);
             return order.ToArray();
+        }
+
+        private int GetTotal()
+        {
+            List<int> subtotals = new List<int>();
+            foreach (MenuItem item in item_list.Values)
+                subtotals.Add(item.GetSubtotal());
+            return subtotals.Sum();
         }
     }
 }

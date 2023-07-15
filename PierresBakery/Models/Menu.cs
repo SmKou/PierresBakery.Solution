@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace PierresBakery.Models
 {
@@ -16,70 +17,60 @@ namespace PierresBakery.Models
         };
         public static Dictionary<string, string[]> varieties = new Dictionary<string, string[]>
         {
-            { "ryebread", new string[] { "icelandic", "finnish" }}
-            { "flatbread", new string[] { "middle eastern", "italian" }}
+            { "ryebread", new string[] { "icelandic", "finnish" }},
+            { "flatbread", new string[] { "middle eastern", "italian" }},
             { "sourdough", new string[] { "german", "italian", "american" }},
             { "custard", new string[] { "french", "portuguese", "japanese" }},
             { "macaroon", new string[] { "french", "filipino" }},
             { "strudel", new string[] { "austrian", "turkish", "hungarian" }},
         };
 
-        public static Bread MakeBread(string type)
+        public static bool HasOption(string product, string option)
         {
-            switch (type)
-            {
-                case "rye":
-                case "ryebread":
-                    return new RyeBread();
-                case "flat":
-                case "flatbread":
-                    return new FlatBread();
-                case "sour":
-                case "sourdough":
-                    return new SourdoughBread();
-                default:
-                    return new Bread("special");
-            }
+            return options.ContainsKey(product) && Array.Exists(options[product], e => e == option);
         }
 
-        public static Pastry MakePastry(string type)
+        public static bool HasVariety(string option, string variety)
         {
-            switch (type)
-            {
-                case "custard":
-                    return new CustardPastry();
-                case "macaron":
-                case "macaroon":
-                    return new MacaroonPastry();
-                case "strudel":
-                    return new StrudelPastry();
-                default:
-                    return new Pastry("special");
-            }
+            if (option == "bread" || option == "pastry")
+                return Array.Exists(specials[option], e => e == variety);
+            return varieties.ContainsKey(option) && Array.Exists(varieties[option], e => e == variety);
         }
 
-        public static bool HasOption(string item)
+        public static string GetOptions(string product)
         {
-            return options.ContainsKey(item);
+            if (!options.ContainsKey(product))
+                return "";
+            return stringify(options[product]);
         }
 
-        public static bool HasVariety(string type)
+        public static string GetVarieties(string option)
         {
-            return varieties.ContainsKey(type);
+            if (!varieties.ContainsKey(option))
+                return "";
+            return stringify(varieties[option]);
         }
 
-        public static string GetOptions(string item)
+        public static string GetVarieties(string product, string option)
         {
-            if (!hasOption(item))
-                return new string[] { "" };
-            return stringify(options[item]);
+            if (option == "special")
+                return GetSpecial(product);
+            return GetVarieties(option);
         }
 
-        public static string GetVarieties(string type)
+        public static string GetSpecial(string product)
         {
-            if (!hasVariety(type))
-                return new string[] { "" };
-            return stringify(varieties[type]);
+            if (!specials.ContainsKey(product))
+                return "";
+            int s = (new Random()).Next(0, specials[product].Length);
+            int o = (new Random()).Next(0, specials[product].Length);
+            while (o == s)
+                o = (new Random()).Next(0, specials[product].Length);
+            string[] varieties = new string[] {
+                specials[product][s],
+                specials[product][o]
+            };
+            return stringify(varieties);
         }
 
         private static string stringify(string[] items)
@@ -87,18 +78,15 @@ namespace PierresBakery.Models
             string list = "";
             for (int i = 0; i < items.Length; i++)
             {
+                if (i == items.Length - 1)
+                    list += "and ";
                 list += items[i];
                 if (i != items.Length - 1)
-                    list += ", ";
+                {
+                    list += items.Length == 2 ? " " : ", ";
+                }
             }
-        }
-
-        public static string GetSpecial(string item)
-        {
-            if (!specials.ContainsKey(item))
-                return new string[] { "" };
-            int s = (new Random()).Next(0, specials[item].Length);
-            return specials[item][s];
+            return list;
         }
     }
 }

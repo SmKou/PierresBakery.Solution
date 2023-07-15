@@ -1,5 +1,6 @@
 using System;
 using PierresBakery.Models;
+using PierresBakery.Views;
 
 namespace PierresBakery
 {
@@ -8,68 +9,49 @@ namespace PierresBakery
         public static void Main()
         {
             bool state = true;
-            string view = "menu";
+            string op = "menu";
             Order order = new Order();
-            Console.WriteLine("Welcome to Pierre's Bakery\nI'll be your robot today.\nBefore we begin, when you're ready to leave, tell me cancel or stop.\nNow then. ");
+            Console.WriteLine("Welcome to Pierre's Bakery\nI'll be your robot today.\nBefore we begin, when you're ready to leave, type in cancel or stop. If you wish to return to this menu, type in menu, and if you would like to view your order, type in view or order.\nNow then.");
             
             while (state)
             {
-                switch (answer)
+                switch (op)
                 {
                     case "bread":
-                        answer = orderMenuItem(true, "bread");
+                        op = OrderMenuItem.run(true, "bread", order);
                         break;
                     case "pastry":
                     case "pastries":
-                        answer = orderMenuItem(true, "pastry");
+                        op = OrderMenuItem.run(true, "pastry", order);
                         break;
                     case "menu":
-                        Console.WriteLine("What would you like to order: bread or pastries?")
-                        answer = Console.ReadLine();
+                        Console.WriteLine("What would you like to order: bread or pastries?");
+                        op = Console.ReadLine();
+                        break;
+                    case "view":
+                    case "order":
+                        op = ReviewOrder.run(true, order);
                         break;
                     case "y":
                     case "yes":
-                        answer = "menu";
+                        op = "menu";
                         break;
                     case "cancel":
                     case "stop":
                     case "n":
                     case "no":
-                        console.WriteLine("Thank you for stopping by Pierre's Bakery. Bye bye!");
+                        Console.WriteLine("Thank you for stopping by Pierre's Bakery. Bye bye!");
                         state = false;
-                        breal;
+                        break;
+                    case "submit":
+                        Console.WriteLine("Your order has been submitted.");
+                        op = "no";
+                        break;
                     default:
-                        console.WriteLine($"I did not understand {answer}. Do you still wish to continue: yes or no?");
+                        Console.WriteLine($"I did not understand {op}. Do you still wish to continue?");
+                        break;
                 }
             }
-        }
-
-        private static string orderMenuItem(bool state, string product, Order order)
-        {
-            Console.WriteLine("We offer " + order.getOptions(product) + "\nWhat would you like?");
-            string item = Console.ReadLine();
-            int qty = 0;
-            while (state)
-            {
-                try {
-                    qty = int.Parse(item);
-
-                    state = false;
-                    continue;
-                }
-                catch { qty = 0; }
-
-                switch (item)
-                {
-                    case "cancel":
-                    case "stop":
-                        return "stop";
-                    case "selection":
-                        Console.WriteLine("What variety would you like?")
-                    default:
-                }
-            }
-
         }
     }
 }
