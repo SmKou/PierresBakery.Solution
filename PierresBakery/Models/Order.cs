@@ -4,8 +4,6 @@ namespace PierresBakery.Models
 {
     public class Order
     {
-        private static string[] breads = { "ryebread", "flatbread", "sourdough" };
-        private static string[] pastries = { "custard", "macaroon", "strudel" };
         private Dictionary<string, MenuItem> item_list;
 
         public Order() 
@@ -40,42 +38,6 @@ namespace PierresBakery.Models
             }
             return false;
         }
-
-        public static string GetOptions(string product)
-        {
-            string[] product_list = { "" };
-            switch (product)
-            {
-                case "bread":
-                    product_list = breads;
-                    break;
-                case "pastry":
-                    product_list = pastries;
-                    break;
-                default:
-                    product_list = new string[breads.Length + pastries.Length];
-                    breads.CopyTo(product_list, 0);
-                    pastries.CopyToo(product_list, breads.Length);
-                    break;
-            }
-
-            string list = "";
-            for (int i = 0; i < product_list.Length; i++) {
-                if (i == product_list.Length - 1)
-                    list += " and ";
-                list += product_list[i];
-                if (i != product_list.Length - 1)
-                    list += ", ";
-            }
-            return list;
-        }
-
-        public static string GetVarieties(string product, string type)
-        {
-            string list = "";
-        }
-
-        private static string[] GetList
 
         public string[] GetOrder()
         {

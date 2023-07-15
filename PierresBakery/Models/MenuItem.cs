@@ -5,66 +5,31 @@ namespace PierresBakery.Models
     public class MenuItem
     {
         public string ItemName { get; }
-        public int Cost { get; set; }
-        public int DealAmount { get; set; }
-        public string Type { get; }
-        public string[] Origins { get; }
-        public string[] Options { get; }
+        public string ItemType { get; }
+        public string ItemVariant { get; set; }
+        public int Cost { get; }
+        public int DealAmount { get; }
         public int Quantity { get; set; } = 0;
 
-        public MenuItem(string itemName, string type, string[] origins, string[] options)
+        public MenuItem(string itemName, string type, int cost, int deal_amt)
         {
             ItemName = itemName;
-            Type = type;
-            Origins = origins;
+            ItemType = type;
+            Cost = cost;
+            DealAmount = deal_amt;
         }
 
-        public bool HasOrigin(string origin)
+        public string GetItem()
         {
-            return Array.Exists(Origins, e => e == origin);
-        }
-
-        public string GetOrigin(int i)
-        {
-            return char.ToUpper(Origins[i][0]) + Origins[i].Substring(1);
-        }
-
-        public static Bread MakeBread(string type)
-        {
-            switch (type)
+            string item = char.ToUpper(ItemType[0]) + ItemType.Substring(1);
+            item += $" - {ItemVariant}";
+            int blank_space = 80 - item.Length;
+            for (int i = 0; i < blank_space; i++)
             {
-                case "rye":
-                case "ryebread":
-                    return new RyeBread();
-                case "flat":
-                case "flatbread":
-                    return new FlatBread();
-                case "sour":
-                case "sourdough":
-                    return new SourdoughBread();
-                default:
-                    string[] possible_origins = { "french", "italian", "portuguese", "american" };
-                    int i = new Random().Next(0, 4);
-                    return new Bread("special", new string[] { possible_origins[i] });
+                item += " ";
             }
-        }
-
-        public static Pastry MakePastry(string type)
-        {
-            switch (type)
-            {
-                case "custard":
-                    return new CustardPastry();
-                case "macaron":
-                case "macaroon":
-                    return new MacaroonPastry();
-                case "strudel":
-                    return new StrudelPastry();
-                default:
-                    string[] possible_origins = { "filipino", "austrian", "portuguese", "french" };
-                    int i = new Random().Next(0, 4);
-                    return new Pastry("special", new string[] { possible_origins[i] });
-            }
+            item += Quantity.ToString();
+            return item; 
         }
 
         public int GetSubtotal(int n)
