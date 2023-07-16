@@ -9,7 +9,7 @@ namespace PierresBakery.Models
         public override int Total()
         {
             int free = Quantity / (Menu.Deal(Option) + 1);
-            return (Quantity - free) * Menu.Deal(Option);
+            return (Quantity - free) * Menu.Cost(Option);
         }
     }
 }
