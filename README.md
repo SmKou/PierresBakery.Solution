@@ -14,6 +14,8 @@ Pierres Bakery is a CLI app that gathers information from a user to create an or
 
 View tests in PierresBakery.Tests
 
+Testing was not implemented for the terminal output.
+
 ## **Complete Setup**
 
 Requires C# compiler.
