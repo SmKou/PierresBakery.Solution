@@ -138,11 +138,8 @@ namespace PierresBakery.Views
                 if (isCommand(variety))
                     return variety;
 
-                if ((option == "special" && Menu.HasVariety(product, variety)) || Menu.HasVariety(option, variety))
-                {
+                if (Menu.HasVariety(option, variety))
                     state = false;
-                    break;
-                }
                 else
                     Console.WriteLine($"We do not offer {variety}. Only " + Menu.GetVarieties(option));
             }

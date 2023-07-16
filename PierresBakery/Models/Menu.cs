@@ -3,74 +3,97 @@ using System.Collections.Generic;
 
 namespace PierresBakery.Models
 {
-    public class Menu
+    public static class Menu
     {
-        public static Dictionary<string, string[]> options = new Dictionary<string, string[]> 
+        private class Option
         {
-            { "bread", new string[] { "ryebread", "flatbread", "sourdough", "special" }},
-            { "pastry", new string[] { "custard", "macaroon", "strudel", "special" }}
+            public string[] Varieties { get; }
+            public int Cost { get; }
+            public int Deal { get; }
+
+            public Option(string[] varieties, int cost, int deal)
+            {
+                Varieties = varieties;
+                Cost = cost;
+                Deal = deal;
+            }
+        }
+
+        private static Dictionary<string, string[]> _products = new Dictionary<string, string[]> 
+        {
+            {"bread", new string[] {"ryebread", "flatbread", "sourdough", "bread"}},
+            {"pastry", new string[] {"custard", "macaroon", "strudel", "pastry"}}
         };
-        public static Dictionary<string, string[]> specials = new Dictionary<string, string[]>
+
+        private static Dictionary<string, Option> _options = new Dictionary<string, Option> 
         {
-            { "bread", new string[] { "french", "italian", "portuguese", "american" }},
-            { "pastry", new string[] { "filipino", "austrian", "portuguese", "french" }}
-        };
-        public static Dictionary<string, string[]> varieties = new Dictionary<string, string[]>
-        {
-            { "ryebread", new string[] { "icelandic", "finnish" }},
-            { "flatbread", new string[] { "middle eastern", "italian" }},
-            { "sourdough", new string[] { "german", "italian", "american" }},
-            { "custard", new string[] { "french", "portuguese", "japanese" }},
-            { "macaroon", new string[] { "french", "filipino" }},
-            { "strudel", new string[] { "austrian", "turkish", "hungarian" }},
+            {"bread", new Option(
+                new string[] {"french", "italian", "portuguese", "american"},
+                5, 2
+            )},
+            {"ryebread", new Option(
+                new string[] {"icelandic", "finnish"},
+                8, 2
+            )},
+            {"flatbread", new Option(
+                new string[] {"middle eastern", "italian"},
+                6, 4
+            )},
+            {"sourdough", new Option(
+                new string[] {"german", "italian", "american"},
+                7, 2
+            )},
+            {"pastry", new Option(
+                new string[] {"filipino", "austrian", "portuguese", "french"},
+                2, 3
+            )},
+            {"custard",  new Option(
+                new string[] {"french", "portuguese", "japanese"},
+                3, 6
+            )},
+            {"macaroon", new Option(
+                new string[] {"french", "filipino"},
+                1, 8
+            )},
+            {"strudel", new Option(
+                new string[] {"austrian", "turkish", "hungarian"},
+                5, 3
+            )}
         };
 
         public static bool HasOption(string product, string option)
         {
-            return options.ContainsKey(product) && Array.Exists(options[product], e => e == option);
+            return _products.ContainsKey(product) && HasElement(_products[product], option);
         }
 
         public static bool HasVariety(string option, string variety)
         {
-            if (option == "bread" || option == "pastry")
-                return Array.Exists(specials[option], e => e == variety);
-            return varieties.ContainsKey(option) && Array.Exists(varieties[option], e => e == variety);
+            return _options.ContainsKey(option) && HasElement(_options[option].Varieties, variety);
         }
 
-        public static string GetOptions(string product)
+        private bool HasElement(string[] arr, string match)
         {
-            if (!options.ContainsKey(product))
-                return "";
-            return stringify(options[product]);
+            return Array.Exists(arr, e => e == match);
         }
 
-        public static string GetVarieties(string option)
+        public static string Options(string product)
         {
-            if (!varieties.ContainsKey(option))
-                return "";
-            return stringify(varieties[option]);
+            return !_products.ContainsKey(product) ? "" : stringify(_products[product]);
         }
 
-        public static string GetVarieties(string product, string option)
+        public static string Varieties(string option)
         {
-            if (option == "special")
-                return GetSpecial(product);
-            return GetVarieties(option);
+            return !_options.ContainsKey(option) ? "" : stringify(_options[option].Varieties);
         }
 
-        public static string GetSpecial(string product)
+        public static int Cost(string option)
         {
-            if (!specials.ContainsKey(product))
-                return "";
-            int s = (new Random()).Next(0, specials[product].Length);
-            int o = (new Random()).Next(0, specials[product].Length);
-            while (o == s)
-                o = (new Random()).Next(0, specials[product].Length);
-            string[] varieties = new string[] {
-                specials[product][s],
-                specials[product][o]
-            };
-            return stringify(varieties);
+            return !_options.ContainsKey(option) ? "" : _options[option].Cost;
+        }
+
+        public static int Deal(string option)
+        {
+            return !_options.ContainsKey(option) ? "" : _options[option].Deal;
         }
 
         private static string stringify(string[] items)
