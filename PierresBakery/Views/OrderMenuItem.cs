@@ -3,7 +3,7 @@ using PierresBakery.Models;
 
 namespace PierresBakery.Views
 {
-    public class OrderMenuItem
+    public static class OrderMenuItem
     {
         private static string op = "option";
         private static string[] cmd = new string[0];

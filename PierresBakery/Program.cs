@@ -11,7 +11,7 @@ namespace PierresBakery
             bool state = true;
             string op = "menu";
             Order order = new Order();
-            Console.WriteLine("Welcome to Pierre's Bakery\nI'll be your assistant for today. Today, the house bread is $5, buy 2 and get 1 free, and the house pastry is $5, buy 3 and get 1 free.\nBefore we begin, if you need to leave at any time without completing your order, type in cancel or stop. If you wish to return to this menu, type in menu, and if you would like to view your order, type in view. You will only have the option of submitting your order when reviewing it.\n\nNow then.");
+            Console.WriteLine("Welcome to Pierre's Bakery!\nI'll be your assistant for today. Today, the house bread is $5, buy 2 and get 1 free, and the house pastry is $5, buy 3 and get 1 free.\nBefore we begin, if you need to leave at any time without completing your order, type in cancel or stop.\nIf you wish to return to this menu, type in menu, and if you would like to view your order, type in view.\nYou will only have the option of submitting your order when reviewing it.\nNow then.\n\n");
             
             while (state)
             {

@@ -3,7 +3,7 @@ using PierresBakery.Models;
 
 namespace PierresBakery.Views
 {
-    public class ReviewOrder
+    public static class ReviewOrder
     {
         private static string op = "instruct";
         private static string[] cmd = new string[0];
