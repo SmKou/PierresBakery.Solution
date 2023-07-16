@@ -10,7 +10,9 @@ CLI app using C# to make an order.
 
 ## **Description**
 
-Pierres Bakery is a CLI app that gathers information from a user to create an order that they can view and edit. The app consists of switch statements acting as controllers. Each controller is responsible for the view for one state. The states are managed by while loops, repeatedly processing a user's input to initiate the main functionality. There are three views: main menu, create order, and review order. Throughout the app, a user can enter the commands--stop, cancel, or menu--to end a state at any time. The states take into account invalid user input and respond accordingly with some degree of flexibility.
+Pierres Bakery is a CLI app that gathers information from a user to create an order that they can view and edit. The app consists of switch statements acting as controllers. Each controller is responsible for the view of one state. The states are managed by while loops, repeatedly processing a user's input to initiate the main functionality. There are three views: main menu, create order, and review order. Throughout the app, a user can enter the commands--stop, cancel, menu, or view--to end a state at any time. The states take into account invalid user input, as well as unrecognized commands. Aside from the main menu, the views explicitly handle errors and guide the user to the next step.
+
+View tests in PierresBakery.Tests
 
 ## **Complete Setup**
 
