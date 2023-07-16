@@ -71,7 +71,7 @@ namespace PierresBakery.Models
             return _options.ContainsKey(option) && HasElement(_options[option].Varieties, variety);
         }
 
-        private bool HasElement(string[] arr, string match)
+        private static bool HasElement(string[] arr, string match)
         {
             return Array.Exists(arr, e => e == match);
         }
@@ -88,12 +88,12 @@ namespace PierresBakery.Models
 
         public static int Cost(string option)
         {
-            return !_options.ContainsKey(option) ? "" : _options[option].Cost;
+            return !_options.ContainsKey(option) ? -1 : _options[option].Cost;
         }
 
         public static int Deal(string option)
         {
-            return !_options.ContainsKey(option) ? "" : _options[option].Deal;
+            return !_options.ContainsKey(option) ? -1 : _options[option].Deal;
         }
 
         private static string stringify(string[] items)

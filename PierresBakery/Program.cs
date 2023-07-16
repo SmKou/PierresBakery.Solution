@@ -1,6 +1,6 @@
 using System;
 using PierresBakery.Models;
-using PierresBakery.Views;
+// using PierresBakery.Views;
 
 namespace PierresBakery
 {
@@ -8,10 +8,10 @@ namespace PierresBakery
     {
         public static void Main()
         {
-            bool state = true;
-            string op = "menu";
-            Order order = new Order();
-            Console.WriteLine("Welcome to Pierre's Bakery\nI'll be your robot today.\nBefore we begin, when you're ready to leave, type in cancel or stop. If you wish to return to this menu, type in menu, and if you would like to view your order, type in view or order.\nThe house bread is $5, buy 2 and get 1 free, and the house pastry is $5, buy 3 and get 1 free.\nNow then.");
+            // bool state = true;
+            // string op = "menu";
+            // Order order = new Order();
+            // Console.WriteLine("Welcome to Pierre's Bakery\nI'll be your robot today.\nBefore we begin, when you're ready to leave, type in cancel or stop. If you wish to return to this menu, type in menu, and if you would like to view your order, type in view or order.\nThe house bread is $5, buy 2 and get 1 free, and the house pastry is $5, buy 3 and get 1 free.\nNow then.");
             
             // while (state)
             // {
