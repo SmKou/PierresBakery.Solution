@@ -9,6 +9,8 @@ namespace PierresBakery.Models
 
         public string[] Items()
         {
+            if (_items.Count == 0)
+                return new string[0];
             string[] items = new string[_items.Count];
             _items.Keys.CopyTo(items, 0);
             return items;
@@ -56,17 +58,25 @@ namespace PierresBakery.Models
                 divider += "-";
             order.Add(divider);
 
-            string[] keys = Items();
-            for (int i = 0; i < keys.Length; i++)
-                order.Add($"{i + 1}. " + _items[keys[i]].Item());
+            if (_items.Count > 0)
+            {
+                string[] keys = Items();
+                for (int i = 0; i < keys.Length; i++)
+                    order.Add($"{i + 1}. " + _items[keys[i]].Item());
+            }
+            else
+                order.Add("You have nothing in your order.");
+            order.Add(divider);
 
-            order.Add(divider);
-            string total = "Total";
-            for (int i = 0; i < 41; i++)
-                total += " ";
-            total += "$" + Total();
-            order.Add(total);
-            order.Add(divider);
+            if (_items.Count > 0)
+            {
+                string total = "Total";
+                for (int i = 0; i < 41; i++)
+                    total += " ";
+                total += "$" + Total();
+                order.Add(total);
+                order.Add(divider);
+            }
 
             return order.ToArray();
         }

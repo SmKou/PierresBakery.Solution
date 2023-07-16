@@ -44,6 +44,15 @@ namespace PierresBakery.Tests
             Assert.AreEqual(expected, result);
         }
 
+        /* No items */
+        [TestMethod]
+        public void Items_ReturnNoItemsInOrder_StringArray()
+        {
+            Order order = new Order();
+            string[] expected = new string[0];
+            CollectionAssert.AreEqual(expected, order.Items());
+        }
+
         /* Single item */
         [TestMethod]
         public void Items_ReturnItemOfOrder_StringArray()
@@ -72,6 +81,19 @@ namespace PierresBakery.Tests
             string keyB = $"{itemB.Option}-{itemB.Variety}";
             string[] expected = new string[] { keyA, keyB };
             CollectionAssert.AreEqual(expected, order.Items());
+        }
+
+        /* No items */
+        [TestMethod]
+        public void Receipt_ReturnNoFormattedItemInOrder_StringArray()
+        {
+            Order order = new Order();
+            string[] result = new string[] {
+                "--------------------------------------------------",
+                "You have nothing in your order.",
+                "--------------------------------------------------"
+            };
+            CollectionAssert.AreEqual(result, order.Receipt());
         }
 
         /* Single item */
