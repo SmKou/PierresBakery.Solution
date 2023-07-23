@@ -1,92 +1,68 @@
-using System.Collections.Generic;
 using System.Linq;
 
-namespace PierresBakery.Models
+namespace PierresBakery.Models;
+
+public static class Order
 {
-    public class Order
+    private static Dictionary<string, Item> _items = new Dictionary<string, Item>();
+
+    public static bool IsEmpty()
     {
-        private Dictionary<string, MenuItem> _items = new Dictionary<string, MenuItem>();
+        return _items.Count == 0;
+    }
 
-        public string[] Items()
+    public static bool Has(string itemName)
+    {
+        return _items.ContainsKey(itemName);
+    }
+
+    public static void AddItem(Item item)
+    {
+        string itemName = $"{item.Option}-{item.Variety}";
+        if (Has(itemName))
+            _items[itemName].Quantity = item.Quantity;
+        else
+            _items.Add(itemName, item);
+    }
+
+    public static bool ChangeQty(string itemName, int qty)
+    {
+        if (Has(itemName))
         {
-            if (_items.Count == 0)
-                return new string[0];
-            string[] items = new string[_items.Count];
-            _items.Keys.CopyTo(items, 0);
-            return items;
+            _items[itemName].Quantity = qty;
+            return true;
         }
+        return false;
+    }
 
-        public bool HasItem(string item)
+    public static bool DeleteItem(string itemName)
+    {
+        if (Has(itemName))
         {
-            return _items.ContainsKey(item);
+            _items.Remove(itemName);
+            return true;
         }
+        return false;
+    }
 
-        public void AddItem(MenuItem item)
-        {
-            string key = $"{item.Option}-{item.Variety}";
-            if (_items.ContainsKey(key))
-                _items[key].Quantity = item.Quantity;
-            else
-                _items.Add(key, item);
-        }
+    public static Item[] Items()
+    {
+        Item[] items = new Item[_items.Count];
+        _items.Values.CopyTo(items, 0);
+        return items;
+    }
 
-        public bool DeleteItem(string key)
-        {
-            if (_items.ContainsKey(key))
-            {
-                _items.Remove(key);
-                return true;
-            }
-            return false;
-        }
+    public static int Total()
+    {
+        List<int> subtotals = new List<int>();
+        foreach (Item item in _items.Values)
+            subtotals.Add(item.Total());
+        return subtotals.Sum();
+    }
 
-        public bool ChangeQty(string key, int qty)
-        {
-            if (_items.ContainsKey(key)) {
-                _items[key].Quantity = qty;
-                return true;
-            }
-            return false;
-        }
-
-        public string[] Receipt()
-        {
-            List<string> order = new List<string>();
-
-            string divider = "";
-            for (int i = 0; i < 50; i++)
-                divider += "-";
-            order.Add(divider);
-
-            if (_items.Count > 0)
-            {
-                string[] keys = Items();
-                for (int i = 0; i < keys.Length; i++)
-                    order.Add($"{i + 1}. " + _items[keys[i]].Item());
-            }
-            else
-                order.Add("You have nothing in your order.");
-            order.Add(divider);
-
-            if (_items.Count > 0)
-            {
-                string total = "Total";
-                for (int i = 0; i < 41; i++)
-                    total += " ";
-                total += "$" + Total();
-                order.Add(total);
-                order.Add(divider);
-            }
-
-            return order.ToArray();
-        }
-
-        private int Total()
-        {
-            List<int> subtotals = new List<int>();
-            foreach (MenuItem item in _items.Values)
-                subtotals.Add(item.Total());
-            return subtotals.Sum();
-        }
+    /* use for testing */
+    public static void ClearAll()
+    {
+        _items.Clear();
     }
 }

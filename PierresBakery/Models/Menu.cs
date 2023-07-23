@@ -1,115 +1,104 @@
-using System;
-using System.Collections.Generic;
+namespace PierresBakery.Models;
 
-namespace PierresBakery.Models
+public static class Menu
 {
-    public static class Menu
-    {
-        private class Option
-        {
-            public string[] Varieties { get; }
-            public int Cost { get; }
-            public int Deal { get; }
-
-            public Option(string[] varieties, int cost, int deal)
-            {
-                Varieties = varieties;
-                Cost = cost;
-                Deal = deal;
-            }
-        }
-
-        private static Dictionary<string, string[]> _products = new Dictionary<string, string[]> 
-        {
-            {"bread", new string[] {"ryebread", "flatbread", "sourdough", "bread"}},
-            {"pastry", new string[] {"custard", "macaroon", "strudel", "pastry"}}
-        };
-
-        private static Dictionary<string, Option> _options = new Dictionary<string, Option> 
-        {
-            {"bread", new Option(
+    private static Dictionary<string, Option[]> _products = new Dictionary<string, Option[]> {
+        {"bread", new Option[] {
+            new Option(
+                "bread",
                 new string[] {"french", "italian", "portuguese", "american"},
                 5, 2
-            )},
-            {"ryebread", new Option(
+            ),
+            new Option(
+                "ryebread",
                 new string[] {"icelandic", "finnish"},
                 8, 2
-            )},
-            {"flatbread", new Option(
+            ),
+            new Option(
+                "flatbread",
                 new string[] {"middle eastern", "italian"},
                 6, 4
-            )},
-            {"sourdough", new Option(
+            ),
+            new Option(
+                "sourdough",
                 new string[] {"german", "italian", "american"},
                 7, 2
-            )},
-            {"pastry", new Option(
+            )
+        }},
+        {"pastry", new Option[] {
+            new Option(
+                "pastry",
                 new string[] {"filipino", "austrian", "portuguese", "french"},
                 2, 3
-            )},
-            {"custard",  new Option(
+            ),
+            new Option(
+                "custard",
                 new string[] {"french", "portuguese", "japanese"},
                 3, 6
-            )},
-            {"macaroon", new Option(
+            ),
+            new Option(
+                "macaroon",
                 new string[] {"french", "filipino"},
                 1, 8
-            )},
-            {"strudel", new Option(
+            ),
+            new Option(
+                "strudel",
                 new string[] {"austrian", "turkish", "hungarian"},
                 5, 3
-            )}
-        };
+            )
+        }}
+    };
 
-        public static bool HasOption(string product, string option)
-        {
-            return _products.ContainsKey(product) && HasElement(_products[product], option);
-        }
+    public static bool HasProduct(string product)
+    {
+        return _products.ContainsKey(product);
+    }
 
-        public static bool HasVariety(string option, string variety)
-        {
-            return _options.ContainsKey(option) && HasElement(_options[option].Varieties, variety);
-        }
+    public static bool HasOption(string product, string option)
+    {
+        return Array.Exists(_products[product], opt => opt.Name == option);
+    }
 
-        private static bool HasElement(string[] arr, string match)
-        {
-            return Array.Exists(arr, e => e == match);
-        }
+    public static bool HasVariety(string product, int optionId, string variety)
+    {
+        return Array.Exists(Get(product, optionId).Varieties, v => v == variety);
+    }
 
-        public static string Options(string product)
-        {
-            return !_products.ContainsKey(product) ? "" : stringify(_products[product]);
-        }
+    public static int Find(string product, string option)
+    {
+        if (!HasProduct(product))
+            return -1;
+        for (int i = 0; i < _products[product].Length; i++)
+            if (_products[product][i].Name == option)
+                return i;
+        return -1;
+    }
 
-        public static string Varieties(string option)
-        {
-            return !_options.ContainsKey(option) ? "" : stringify(_options[option].Varieties);
-        }
+    public static string[] Options(string product)
+    {
+        string[] options = new string[_products[product].Length];
+        for (int i = 0; i < options.Length; i++)
+            options[i] = _products[product][i].Name;
+        return options;
+    }
 
-        public static int Cost(string option)
-        {
-            return !_options.ContainsKey(option) ? -1 : _options[option].Cost;
-        }
+    private static Option Get(string product, int optionId)
+    {
+        return _products[product][optionId];
+    }
 
-        public static int Deal(string option)
-        {
-            return !_options.ContainsKey(option) ? -1 : _options[option].Deal;
-        }
+    public static string[] Varieties(string product, int optionId)
+    {
+        return Get(product, optionId).Varieties;
+    }
 
-        private static string stringify(string[] items)
-        {
-            string list = "";
-            for (int i = 0; i < items.Length; i++)
-            {
-                if (i == items.Length - 1)
-                    list += "and ";
-                list += items[i];
-                if (i != items.Length - 1)
-                {
-                    list += items.Length == 2 ? " " : ", ";
-                }
-            }
-            return list;
-        }
+    public static int Cost(string product, int optionId)
+    {
+        return Get(product, optionId).Cost;
+    }
+
+    public static int Deal(string product, int optionId)
+    {
+        return Get(product, optionId).Deal;
     }
 }

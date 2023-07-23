@@ -1,15 +1,15 @@
-using System.Collections.Generic;
+namespace PierresBakery.Models;
 
-namespace PierresBakery.Models
+public class Pastry : Item
 {
-    public class Pastry : MenuItem
-    {
-        public Pastry(string option, string variety, int qty) : base("pastry", option, variety, qty) { }
+    public Pastry(string option, string variety, int qty) : base("pastry", option, variety, qty) { }
 
-        public override int Total()
-        {
-            int free = Quantity / (Menu.Deal(Option) + 1);
-            return (Quantity - free) * Menu.Cost(Option);
-        }
+    public override int Total()
+    {
+        int deal = Menu.Deal(Product, OptionId);
+        int cost = Menu.Cost(Product, OptionId);
+
+        int free = Quantity / (deal + 1);
+        return (Quantity - free) * cost;
     }
 }

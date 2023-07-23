@@ -1,21 +1,13 @@
 global using System;
-using PierresBakery.Controllers;
+global using System.Collections.Generic;
 using PierresBakery.Models;
-using PierresBakery.Views;
 
 namespace PierresBakery;
 
-public class PierresBakery
+public class Program
 {
     public static void Main()
     {
-        MainController.Operation = "intro";
-        MainController.Receipt = new Order();
-        
-        while (MainController.State)
-        {
-            
-        }
         
     }
 }
