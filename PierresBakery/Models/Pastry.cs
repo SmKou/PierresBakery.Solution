@@ -2,7 +2,7 @@ namespace PierresBakery.Models;
 
 public class Pastry : Item
 {
-    public Pastry(string option, string variety, int qty) : base("pastry", option, variety, qty) { }
+    public Pastry() : base("pastry") {}
 
     public override int Total()
     {

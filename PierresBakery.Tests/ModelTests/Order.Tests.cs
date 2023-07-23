@@ -19,7 +19,11 @@ public class OrderTests
     [DataRow("ryebread", "finnish", 1, "whitebread-finnish", false)]
     public void HasandAddItem_AddItemToOrder_ReturnOrderHasItem_Bool(string option, string variety, int qty, string itemName, bool expected)
     {
-        Item test = new Bread(option, variety, qty);
+        Item test = new Bread();
+        test.Option = option;
+        test.OptionId = Menu.Find(test.Product, test.Option);
+        test.Variety = variety;
+        test.Quantity = qty;
         Order.AddItem(test);
         bool result = Order.Has(itemName);
         Assert.AreEqual(expected, result);
@@ -37,8 +41,14 @@ public class OrderTests
     [TestMethod]
     public void Items_ReturnListOfItemsInOrder_ItemArray()
     {
-        Item expected = new Bread("ryebread", "finnish", 3);
+        Item expected = new Bread();
+        expected.Option = "ryebread";
+        expected.OptionId = Menu.Find(expected.Product, expected.Option);
+        expected.Variety = "finnish";
+        expected.Quantity = 3;
+
         Item result = Order.Items()[0];
+
         Assert.AreEqual(expected.Product, result.Product);
         Assert.AreEqual(expected.Option, result.Option);
         Assert.AreEqual(expected.OptionId, result.OptionId);
